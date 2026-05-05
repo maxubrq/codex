@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codex Vận Hành — Trần Phát Hưng</title>
+<style>
+  :root {
+    --gold: #c9993a;
+    --gold-dim: #8a6520;
+    --gold-light: #f0c96a;
+    --bg: #080808;
+    --bg2: #111111;
+    --bg3: #1a1a1a;
+    --bg4: #222222;
+    --text: #e8e2d6;
+    --text2: #a09a8e;
+    --text3: #6a6460;
+    --red: #c04040;
+    --red-bg: #1a0a0a;
+    --green: #4a9060;
+    --green-bg: #0a1a0f;
+    --border: #2a2520;
+    --border2: #3a3530;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  /* LAYOUT */
+  .layout { display: flex; min-height: 100vh; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 240px;
+    min-width: 240px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 2rem 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border2) transparent;
+  }
+  .sidebar-logo {
+    padding: 0 1.5rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+  }
+  .sidebar-logo .name {
+    font-family: 'Georgia', serif;
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .sidebar-logo .subtitle {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 2px;
+    font-family: sans-serif;
+  }
+  .nav-section {
+    padding: 0.5rem 1.5rem 0.25rem;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--text3);
+    text-transform: uppercase;
+    font-family: sans-serif;
+    font-weight: 600;
+  }
+  .nav-item {
+    display: block;
+    padding: 6px 1.5rem;
+    font-size: 12px;
+    color: var(--text2);
+    text-decoration: none;
+    font-family: sans-serif;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+    cursor: pointer;
+  }
+  .nav-item:hover { color: var(--text); background: var(--bg3); border-left-color: var(--gold-dim); }
+  .nav-item.active { color: var(--gold-light); border-left-color: var(--gold); background: var(--bg3); }
+
+  /* MAIN */
+  .main { flex: 1; padding: 3rem 4rem; max-width: 900px; }
+
+  /* HEADER */
+  .doc-header {
+    padding-bottom: 2.5rem;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .doc-header .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    font-family: sans-serif;
+    margin-bottom: 0.75rem;
+  }
+  .doc-header h1 {
+    font-size: 38px;
+    font-weight: normal;
+    color: var(--gold-light);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .doc-header .intro {
+    font-size: 15px;
+    color: var(--text2);
+    max-width: 620px;
+    line-height: 1.8;
+  }
+  .meta-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 1.5rem;
+  }
+  .pill {
+    font-size: 11px;
+    font-family: sans-serif;
+    padding: 3px 10px;
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    color: var(--text3);
+  }
+  .pill.gold { border-color: var(--gold-dim); color: var(--gold); }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 4rem;
+    scroll-margin-top: 2rem;
+  }
+  .section-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-number {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--gold-dim);
+    font-family: sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-size: 26px;
+    font-weight: normal;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .section-basis {
+    font-size: 12px;
+    font-family: sans-serif;
+    color: var(--gold-dim);
+    letter-spacing: 0.05em;
+  }
+  .section-insight {
+    font-size: 14px;
+    color: var(--text2);
+    background: var(--bg3);
+    border-left: 3px solid var(--gold-dim);
+    padding: 1rem 1.25rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1.75rem;
+    line-height: 1.8;
+  }
+
+  /* RULE */
+  .rules-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    font-family: sans-serif;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .rule {
+    margin-bottom: 1.25rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    position: relative;
+  }
+  .rule::before {
+    content: attr(data-n);
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 20px;
+    font-family: 'Georgia', serif;
+    color: var(--border2);
+    font-style: italic;
+  }
+  .rule-title {
+    font-size: 14px;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+    line-height: 1.5;
+    padding-right: 2rem;
+    font-family: sans-serif;
+    font-weight: 600;
+  }
+  .rule-detail {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.75;
+  }
+  .rule-metric {
+    margin-top: 8px;
+    font-size: 12px;
+    font-family: sans-serif;
+    color: var(--text3);
+    background: var(--bg3);
+    padding: 6px 10px;
+    border-radius: 4px;
+    border-left: 2px solid var(--gold-dim);
+  }
+  .rule-metric strong { color: var(--gold); font-weight: 600; }
+
+  /* LIMITS */
+  .limits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .limits-box {
+    padding: 1rem 1.25rem;
+    border-radius: 6px;
+  }
+  .limits-box.red { background: var(--red-bg); border: 1px solid rgba(192,64,64,0.3); }
+  .limits-box.green { background: var(--green-bg); border: 1px solid rgba(74,144,96,0.3); }
+  .limits-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+  .limits-box.red .limits-label { color: var(--red); }
+  .limits-box.green .limits-label { color: var(--green); }
+  .limit-item {
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+    padding-left: 0.75rem;
+    border-left: 1px solid;
+  }
+  .limits-box.red .limit-item { color: rgba(192,64,64,0.9); border-color: rgba(192,64,64,0.3); }
+  .limits-box.green .limit-item { color: rgba(74,144,96,0.9); border-color: rgba(74,144,96,0.3); }
+
+  /* PROTOCOLS */
+  .protocol-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .protocol-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+  .protocol-card-title {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-family: sans-serif;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .protocol-item {
+    font-size: 12px;
+    font-family: sans-serif;
+    color: var(--text2);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.6;
+  }
+  .protocol-item:last-child { border-bottom: none; }
+  .protocol-item .time {
+    font-size: 10px;
+    color: var(--text3);
+    display: block;
+  }
+
+  /* META LAWS */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .meta-card {
+    background: var(--bg2);
+    border: 1px solid var(--gold-dim);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+  .meta-card-num {
+    font-size: 32px;
+    color: var(--border2);
+    font-style: italic;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .meta-card-title {
+    font-size: 14px;
+    color: var(--gold-light);
+    font-family: sans-serif;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .meta-card-body {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.7;
+    font-family: sans-serif;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+
+  /* PRINT */
+  @media print {
+    .sidebar { display: none; }
+    .main { padding: 2rem; }
+    body { background: white; color: #111; }
+    .rule { break-inside: avoid; }
+    .section { break-inside: avoid; }
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="name">Trần Phát Hưng</div>
+    <div class="subtitle">Codex Vận Hành Cá Nhân</div>
+  </div>
+
+  <div class="nav-section">Nền tảng</div>
+  <a class="nav-item" href="#meta">9 Quy Luật Cốt Lõi</a>
+  <a class="nav-item" href="#protocol">Giao Thức Hàng Ngày</a>
+
+  <div class="nav-section">13 Khía Cạnh</div>
+  <a class="nav-item" href="#s1">01 · Sự Nghiệp</a>
+  <a class="nav-item" href="#s2">02 · Tài Chính</a>
+  <a class="nav-item" href="#s3">03 · Sức Khỏe</a>
+  <a class="nav-item" href="#s4">04 · Tình Yêu</a>
+  <a class="nav-item" href="#s5">05 · Mạng Lưới</a>
+  <a class="nav-item" href="#s6">06 · Học Hỏi</a>
+  <a class="nav-item" href="#s7">07 · Sáng Tạo</a>
+  <a class="nav-item" href="#s8">08 · Nội Tâm</a>
+  <a class="nav-item" href="#s9">09 · Thời Gian & Năng Lượng</a>
+  <a class="nav-item" href="#s10">10 · Môi Trường</a>
+  <a class="nav-item" href="#s11">11 · Ra Quyết Định</a>
+  <a class="nav-item" href="#s12">12 · Giao Tiếp</a>
+  <a class="nav-item" href="#s13">13 · Phục Hồi & Tư Duy</a>
+
+  <div class="nav-section">Review</div>
+  <a class="nav-item" href="#weekly">Checklist Tuần</a>
+  <a class="nav-item" href="#monthly">Checklist Tháng</a>
+  <a class="nav-item" href="#quarterly">Checklist Quý</a>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="eyebrow">Codex Vận Hành Cá Nhân · Lá Số Bẩm Sinh</div>
+    <h1>Kim Chỉ Nam<br>Không Thể Lùi</h1>
+    <p class="intro">Tài liệu này không phải lý thuyết chiêm tinh. Đây là bản đặc tả vận hành được rút ra trực tiếp từ cấu trúc hành tinh — 13 khía cạnh cuộc sống, mỗi quy tắc đều gắn với vị trí cụ thể, không thể áp dụng cho ai khác. Đọc, internalize, và đặt làm tiêu chuẩn tối thiểu — không phải mục tiêu hướng đến.</p>
+    <div class="meta-pills">
+      <span class="pill gold">Ascendant Bảo Bình 16°43'</span>
+      <span class="pill gold">Stellium H1: Hỏa + Mộc + Thiên Vương + Kim</span>
+      <span class="pill gold">MC Bọ Cạp · La Hầu Xử Nữ H8</span>
+      <span class="pill">Whole Signs · Mean Node</span>
+    </div>
+  </div>
+
+  <!-- META LAWS -->
+  <div class="section" id="meta">
+    <div class="section-header">
+      <div class="section-number">Nền Tảng</div>
+      <div class="section-title">9 Quy Luật Cốt Lõi</div>
+      <div class="section-basis">Đọc trước tất cả. Đây là framework, phần còn lại là implementation.</div>
+    </div>
+    <div class="meta-grid">
+      <div class="meta-card">
+        <div class="meta-card-num">I</div>
+        <div class="meta-card-title">Đột phá là lợi thế duy nhất</div>
+        <div class="meta-card-body">Stellium Aquarius H1. Không cạnh tranh bằng cách làm tốt hơn — cạnh tranh bằng cách làm khác hơn. Khi mày follow convention, mày mất edge.</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-card-num">II</div>
+        <div class="meta-card-title">Sức mạnh tích lũy trong bóng tối</div>
+        <div class="meta-card-body">Sun H12. Depth work không ai thấy là nguồn power thật. Protect solitude như bảo vệ nguồn oxy.</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-card-num">III</div>
+        <div class="meta-card-title">Hành động là bản sắc</div>
+        <div class="meta-card-body">Mars hợp ASC 0.40°. Không có momentum = không có mày. Inertia là mối đe dọa sinh tồn với cấu hình này.</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-card-num">IV</div>
+        <div class="meta-card-title">Mastery là hướng số phận</div>
+        <div class="meta-card-body">La Hầu Xử Nữ H8. Rộng mà cạn = đi ngược dòng. Sâu hơn 99% trong lĩnh vực chọn = đúng hướng.</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-card-num">V</div>
+        <div class="meta-card-title">Nền tảng vật lý là hạ tầng, không phải thưởng</div>
+        <div class="meta-card-body">Moon Taurus H4. Giấc ngủ, dinh dưỡng, không gian sống là chi phí vận hành. Thỏa hiệp = trả giá gấp đôi sau.</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-card-num">VI</div>
+        <div class="meta-card-title">Vết thương là nguyên liệu di sản</div>
+        <div class="meta-card-body">Chiron H10 + MC Bọ Cạp. Thứ đã gây đau nhất trong nghề nghiệp là thứ tạo ra legacy khi được chuyển hóa.</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-card-num">VII</div>
+        <div class="meta-card-title">Kỷ luật tư duy là đòn bẩy nhân rộng</div>
+        <div class="meta-card-body">Saturn H3. Tư duy tản mát lãng phí toàn bộ sức mạnh stellium. Hệ thống tư duy = bệ phóng cho action.</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-card-num">VIII</div>
+        <div class="meta-card-title">Chỉ chơi ở tầm hệ thống</div>
+        <div class="meta-card-body">Mercury Nhân Mã H11. Lá số này không được thiết kế cho chiến thắng nhỏ. Tầm nhỏ là lãng phí cấu trúc hành tinh.</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-card-num">IX</div>
+        <div class="meta-card-title">Quyết định chỉ từ trạng thái tích hợp</div>
+        <div class="meta-card-body">Sun trine Moon 1.82°. Khi ý chí và cảm xúc hội tụ — gần như không thể sai. Khi phân ly — dừng lại.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAILY PROTOCOL -->
+  <div class="section" id="protocol">
+    <div class="section-header">
+      <div class="section-number">Giao Thức</div>
+      <div class="section-title">Vận Hành Hàng Ngày</div>
+      <div class="section-basis">Không phải lịch lý tưởng — đây là tối thiểu không thể thỏa hiệp</div>
+    </div>
+    <div class="protocol-grid">
+      <div class="protocol-card">
+        <div class="protocol-card-title">Sáng — Nạp năng lượng</div>
+        <div class="protocol-item"><span class="time">Trước 7am</span>Thức dậy, không phone 30 phút đầu</div>
+        <div class="protocol-item"><span class="time">7–7:30am</span>Vận động nhẹ hoặc stretch — Mars ASC cần khởi động</div>
+        <div class="protocol-item"><span class="time">7:30–8am</span>Journaling 1 trang — không structure, stream of consciousness</div>
+        <div class="protocol-item"><span class="time">8–10am</span>Deep work block đầu — không meetings, không messages. Công việc có cognitive demand cao nhất</div>
+        <div class="protocol-item"><span class="time">10–11am</span>Review và planning ngày — respond messages, set priorities</div>
+      </div>
+      <div class="protocol-card">
+        <div class="protocol-card-title">Chiều — Execution</div>
+        <div class="protocol-item"><span class="time">11am–1pm</span>Meetings, collaborations, external-facing work</div>
+        <div class="protocol-item"><span class="time">1–2pm</span>Nghỉ ngơi thực sự — không scroll, không consume content</div>
+        <div class="protocol-item"><span class="time">2–4pm</span>Deep work block 2 — creative, strategic, hoặc learning</div>
+        <div class="protocol-item"><span class="time">4–6pm</span>Admin, execution tasks, correspondence</div>
+        <div class="protocol-item"><span class="time">6–7pm</span>Vận động mạnh — xả stress tích lũy Moon vu Mars</div>
+      </div>
+      <div class="protocol-card">
+        <div class="protocol-card-title">Tối — Nạp lại & Tĩnh lặng</div>
+        <div class="protocol-item"><span class="time">7–8pm</span>Ăn tối, không màn hình. Thời gian social nếu có</div>
+        <div class="protocol-item"><span class="time">8–9pm</span>Reading hoặc learning nhẹ — không intensive processing</div>
+        <div class="protocol-item"><span class="time">9–10pm</span>Wind-down: không work, không stimulating content. Sun H12 cần transition time</div>
+        <div class="protocol-item"><span class="time">Trước 10:30pm</span>Ngủ. Moon Taurus không negotiate giấc ngủ</div>
+        <div class="protocol-item"><span class="time">Hàng ngày</span>30 phút solitude không có agenda — có thể bất cứ lúc nào</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: SỰ NGHIỆP -->
+  <div class="section" id="s1">
+    <div class="section-header">
+      <div class="section-number">Khía Cạnh 01</div>
+      <div class="section-title">Sự Nghiệp & Mục Đích</div>
+      <div class="section-basis">MC Bọ Cạp H10 · Chiron H10 · Diêm Vương H11 · Mộc Tinh H1 · Thiên Vương H1</div>
+    </div>
+    <div class="section-insight">MC Bọ Cạp: sự nghiệp phải đi vào chiều sâu, biến đổi, quyền năng — những vùng người khác tránh né. Chiron H10: vết thương về địa vị công khai tồn tại và phải được directly addressed — đây là nguyên liệu thô tạo legacy, không phải điểm yếu. Diêm Vương H11: power thật đến khi mày build movements, không phải khi mày individual hero. Thiên Vương H1: disruption là DNA, không phải style.</div>
+
+    <div class="rules-label">Quy Tắc Vận Hành</div>
+
+    <div class="rule" data-n="01">
+      <div class="rule-title">Chỉ làm việc trong lĩnh vực đòi hỏi đi vào nơi người khác không dám</div>
+      <div class="rule-detail">Tài chính phức tạp, công nghệ biến đổi hệ thống, tâm lý hành vi, nghiên cứu chiều sâu, crisis management, power dynamics, hoặc bất kỳ lĩnh vực nào đòi hỏi đối mặt với những gì người khác avoid. MC Bọ Cạp không hoạt động ở surface level — đây không phải preference mà là cấu trúc năng lượng. Ở trong môi trường shallow quá 12 tháng sẽ tạo ra depression không rõ nguyên nhân.</div>
+      <div class="rule-metric"><strong>Kiểm tra:</strong> Công việc hiện tại có đòi hỏi mày đi vào vùng mà hầu hết người sẽ pull back không? Nếu không — sai lĩnh vực.</div>
+    </div>
+
+    <div class="rule" data-n="02">
+      <div class="rule-title">Không giữ role execution thuần túy sau 24 tháng trong bất kỳ vị trí nào</div>
+      <div class="rule-detail">Aquarius stellium H1 bị ngạt trong môi trường tuân thủ dài hạn. Phải có không gian reimagine cách vấn đề được tiếp cận. Nếu sau 24 tháng vẫn chỉ execute ý tưởng của người khác mà không có influence trên direction — đó là ceiling thực sự, không phải stepping stone.</div>
+      <div class="rule-metric"><strong>Kiểm tra:</strong> Trong 6 tháng vừa rồi, mày đã thay đổi được ít nhất 1 cách tiếp cận vấn đề ở level team/org chưa? Nếu chưa — cần renegotiate scope hoặc plan exit.</div>
+    </div>
+
+    <div class="rule" data-n="03">
+      <div class="rule-title">Mỗi project lớn phải tạo ra phase change, không chỉ improvement tuyến tính</div>
+      <div class="rule-detail">Bọ Cạp MC hiểu ngôn ngữ transformation. "Tốt hơn 20%" không build được reputation mà lá số này được thiết kế cho. Phải có component "sau khi mày làm thì không thể quay lại trạng thái cũ" trong bất kỳ initiative nào mày lead. Đây không phải arrogance — đây là alignment với cấu trúc hành tinh.</div>
+      <div class="rule-metric"><strong>Kiểm tra:</strong> Nếu mày rút khỏi project này, có gì thực sự bị mất không hay chỉ là chậm lại một chút?</div>
+    </div>
+
+    <div class="rule" data-n="04">
+      <div class="rule-title">Directly address Chiron H10 — không được để vết thương về authority chạy ngầm</div>
+      <div class="rule-detail">Chiron H10 thường biểu hiện như: sợ bị thấy thất bại công khai, tổn thương cũ về vị trí nghề nghiệp, hoặc pattern tự sabotage khi gần đạt đỉnh. Quy tắc cụ thể: mỗi khi nhận ra mình đang avoid một visibility hoặc authority opportunity vì sợ — phải viết ra cụ thể "mình đang sợ gì" và "evidence thực tế là gì". Không phải để suppress, mà để transmute.</div>
+      <div class="rule-metric"><strong>Kiểm tra:</strong> Trong năm qua, mày đã từ chối bao nhiêu cơ hội visibility vì "chưa sẵn sàng"? Số đó nói lên điều gì?</div>
+    </div>
+
+    <div class="rule" data-n="05">
+      <div class="rule-title">Build community và intellectual movement xung quanh công việc — không chỉ personal brand</div>
+      <div class="rule-detail">Diêm Vương H11 Nhân Mã: sức mạnh thực sự đến khi mày kéo người khác vào một vision lớn hơn cả hai bên. Individual achievement với lá số này là ceiling thấp. Phải có thứ mày đang build mà nếu mày không có thì người khác trong lĩnh vực đó cũng không có — đó mới là đúng scale.</div>
+      <div class="rule-metric"><strong>Kiểm tra:</strong> Có ít nhất 10 người đang follow hoặc tham chiếu thinking của mày trong lĩnh vực chưa?</div>
+    </div>
+
+    <div class="rule" data-n="06">
+      <div class="rule-title">Không nhận offer dù hấp dẫn nếu nó đòi hỏi conform thay vì transform</div>
+      <div class="rule-detail">Thiên Vương H1 + Aquarius stellium: môi trường đòi hỏi mày phải trở nên "normal" để fit in sẽ cost nhiều hơn bất kỳ salary hay title nào nó offer. Đây không phải về ego — mày literally performs worse trong môi trường constraint-heavy. Chọn autonomy và transformation potential trên prestige và stability khi phải chọn một.</div>
+      <div class="rule-metric"><strong>Kiểm tra:</strong> Trong role này, mày có thể propose và implement thứ gì đó fundamental new không cần xin phép quá 3 người không?</div>
+    </div>
+
+    <div class="rule" data-n="07">
+      <div class="rule-title">Đặt 1 "transformation goal" rõ ràng cho mỗi năm — cụ thể, measurable, và ambitious đến mức hơi sợ</div>
+      <div class="rule-detail">Jupiter H1 cần expansion target. Không phải SMART goals thông thường mà là thứ gì đó mà nếu achieve được sẽ khiến mày trở thành người khác ở cuối năm. Ví dụ: "publish research được cite bởi ít nhất 5 người trong lĩnh vực", "build tool được 1000 người dùng", "present tại conference level X". Cụ thể và có date.</div>
+      <div class="rule-metric"><strong>Kiểm tra:</strong> Goal năm nay của mày có khiến mày thực sự uncomfortable khi nghĩ đến khả năng fail không? Nếu không — chưa đủ ambitious.</div>
+    </div>
+
+    <div class="rule" data-n="08">
+      <div class="rule-title">Annual review nghề nghiệp: "Đâu là thứ mình đã làm mà không ai khác trong network làm được?"</div>
+      <div class="rule-detail">Đây là câu hỏi kiểm tra xem mày có đang leverage Aquarius/Bọ Cạp MC hay chỉ đang competitive với đám đông. Nếu không trả lời được câu này — đó là signal cần reposition. Không phải về pride, mà về direction. Câu trả lời cho câu hỏi này thường chỉ đường đến lĩnh vực cần đầu tư tiếp theo.</div>
+    </div>
+
+    <div class="limits-grid">
+      <div class="limits-box red">
+        <div class="limits-label">Không Được Phép</div>
+        <div class="limit-item">Không làm việc trong môi trường micromanage kéo dài hơn 6 tháng — Aquarius H1 mất creative capacity, bắt đầu self-sabotage</div>
+        <div class="limit-item">Không theo đuổi prestige role thiếu real depth — MC Bọ Cạp chán trong 12 tháng và performance drop không giải thích được</div>
+        <div class="limit-item">Không "save" best ideas cho "sau này khi có platform" — Thiên Vương H1 depletes nếu không được expressed</div>
+      </div>
+      <div class="limits-box green">
+        <div class="limits-label">Đang Đi Đúng Hướng Khi</div>
+        <div class="limit-item">Người trong ngành tìm đến mày để hỏi về vùng cụ thể mà mày đang build mastery</div>
+        <div class="limit-item">Công việc của mày khiến ít nhất 1 người phải nhìn lại assumption cơ bản của họ</div>
+        <div class="limit-item">Mày đang sợ và excited về cùng một thứ cùng lúc</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: TÀI CHÍNH -->
+  <div class="section" id="s2">
+    <div class="section-header">
+      <div class="section-number">Khía Cạnh 02</div>
+      <div class="section-title">Tài Chính & Tài Sản</div>
+      <div class="section-basis">La Hầu Xử Nữ H8 · H2 Song Ngư (Neptune H12 cai quản) · Kế Đô H2 · Mộc Tinh H1</div>
+    </div>
+    <div class="section-insight">Kế Đô ở H2 + Neptune cai quản H2: xu hướng tự nhiên là mơ hồ, lý tưởng hóa, hoặc thiếu hệ thống về tiền — đây là trap cần chủ động counter. La Hầu H8 (hướng tiến hóa): destiny đòi hỏi xây dựng wealth qua đòn bẩy, tài sản người khác, đầu tư, và biến đổi vốn. Jupiter H1: tiền đến khi mày là chính mình, không phải khi mày comply. Tài chính là vùng counter-intuitive nhất trong lá số này.</div>
+
+    <div class="rules-label">Quy Tắc Vận Hành</div>
+
+    <div class="rule" data-n="01">
+      <div class="rule-title">Tracking tài chính chi tiết — không được để > 14 ngày không biết mình đang ở đâu</div>
+      <div class="rule-detail">La Hầu Xử Nữ (precision) ở H8 (tiền và tài nguyên transformation): destiny đòi hỏi analytical rigor với tài chính. Không phải tracking để kiệm — mà để identify leverage points. Tool cụ thể: spreadsheet monthly P&L cá nhân với ít nhất 10 categories. Update mỗi 2 tuần.</div>
+      <div class="rule-metric"><strong>Tiêu chuẩn tối thiểu:</strong> Biết income, expenses, net savings, và net worth trong sai số 5% bất kỳ lúc nào được hỏi.</div>
+    </div>
+
+    <div class="rule" data-n="02">
+      <div class="rule-title">Phải build ít nhất 1 income stream không đổi thời gian trực tiếp lấy tiền trước tuổi 35</div>
+      <div class="rule-detail">H8 North Node = other people's money, leverage, passive structures. Có thể là: content/IP có thể scale, equity, đầu tư tạo ra dividend/capital gain, SaaS, licensing, hoặc bất kỳ cái gì tạo ra compounding. Không nhất thiết phải lớn ngay — nhưng phải exist và phải đang grow.</div>
+      <div class="rule-metric"><strong>Tiêu chuẩn:</strong> Passive/leveraged income chiếm ít nhất 20% tổng income trước tuổi 35, 50% trước tuổi 40.</div>
+    </div>
+
+    <div class="rule" data-n="03">
+      <div class="rule-title">Monthly financial review — ngày cố định mỗi tháng, không được dời</div>
+      <div class="rule-detail">Agenda cụ thể: (1) P&L tháng vừa rồi, (2) net worth update, (3) review investment performance, (4) một quyết định cụ thể cho tháng tới dựa trên data. Neptune cai quản H2 tạo ra fog tài chính — hệ thống định kỳ là cách duy nhất counter. Không có cảm giác, không có trực giác — chỉ có data.</div>
+      <div class="rule-metric"><strong>Output bắt buộc:</strong> Sau mỗi monthly review phải có ít nhất 1 action item cụ thể được viết ra và deadline rõ ràng.</div>
+    </div>
+
+    <div class="rule" data-n="04">
+      <div class="rule-title">Savings rate tối thiểu 30% income sau khi đã có emergency fund</div>
+      <div class="rule-detail">Jupiter H1 tạo ra expansive spending instinct — điều này cần structural counter. Emergency fund = 6 tháng chi phí sinh hoạt trong tài khoản không đụng đến. Sau đó: minimum 30% vào investment/wealth building, không flexible. Phải auto-transfer ngày nhận lương, không để "tiết kiệm phần còn lại".</div>
+      <div class="rule-metric"><strong>Tiêu chuẩn:</strong> Savings rate < 30% trong 3 tháng liên tiếp = cần audit ngay expenses và income strategy.</div>
+    </div>
+
+    <div class="rule" data-n="05">
+      <div class="rule-title">Học financial intelligence như core competency — không phải optional supplementary knowledge</div>
+      <div class="rule-detail">North Node Xử Nữ H8 cụ thể: phải hiểu valuation, financial modeling, cấu trúc vốn, investment frameworks ở mức có thể làm việc thực tế. Không phải "đọc vài book về personal finance". Ít nhất 1 khóa học hoặc deep-dive structured learning về financial intelligence mỗi năm.</div>
+      <div class="rule-metric"><strong>Tiêu chuẩn:</strong> Có thể đọc và analyze financial statement của 1 công ty bất kỳ trong ngành mày hoạt động.</div>
+    </div>
+
+    <div class="rule" data-n="06">
+      <div class="rule-title">Không giữ tiền idle sau khi có đủ emergency fund — mọi tiền dư thừa phải có allocation rõ ràng</div>
+      <div class="rule-detail">H8 North Node: tiền phải đi vào transformation/compounding. Tiền idle > 3 tháng là lãng phí cơ hội và đi ngược cấu hình. Default allocation nếu chưa có strategy: 60% broad index, 30% specific opportunities, 10% speculative/learning. Có thể điều chỉnh nhưng phải có decision, không phải default inaction.</div>
+    </div>
+
+    <div class="rule" data-n="07">
+      <div class="rule-title">Không ra quyết định tài chính lớn một mình — luôn có ít nhất 1 người có chuyên môn review</div>
+      <div class="rule-detail">Neptune cai quản H2 tạo ra illusions đẹp về cơ hội tài chính. Aquarius H1 có thể bị excited bởi novel ideas. Kết hợp hai thứ này mà không có external check là recipe cho expensive mistakes. Quyết định > 10% net worth: bắt buộc có third-party review từ người có chuyên môn thực sự (không phải người cũng đang excited về cùng idea).</div>
+    </div>
+
+    <div class="limits-grid">
+      <div class="limits-box red">
+        <div class="limits-label">Không Được Phép</div>
+        <div class="limit-item">Không đầu tư dựa trên narrative, FOMO, hoặc "cảm giác đây là cơ hội" mà không có fundamental analysis — Neptune H2 tạo ra beautiful illusions</div>
+        <div class="limit-item">Không lifestyle inflate khi income tăng trước khi investment rate tăng tương ứng</div>
+        <div class="limit-item">Không delay bắt đầu invest vì "chờ có nhiều hơn" — compounding không chờ</div>
+      </div>
+      <div class="limits-box green">
+        <div class="limits-label">Đang Đi Đúng Hướng Khi</div>
+        <div class="limit-item">Có ít nhất 1 asset tạo ra income mà không cần mày làm việc trực tiếp, dù nhỏ</div>
+        <div class="limit-item">Monthly review tạo ra ít nhất 1 quyết định tài chính cụ thể, không chỉ check numbers</div>
+        <div class="limit-item">Net worth tháng này > net worth tháng trước ít nhất 11 tháng trong năm</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: SỨC KHỎE -->
+  <div class="section" id="s3">
+    <div class="section-header">
+      <div class="section-number">Khía Cạnh 03</div>
+      <div class="section-title">Sức Khỏe & Thể Chất</div>
+      <div class="section-basis">Hỏa hợp ASC 0.40° · Mặt Trăng vuông Hỏa · H6 Cự Giải (Moon H4 cai quản) · Moon Taurus H4</div>
+    </div>
+    <div class="section-insight">Hỏa Tinh hợp chính xác Điểm Mọc (0.40°): thể chất và bản sắc là một. Khi cơ thể xuống — cognitive capacity, creativity, và emotional regulation đều xuống theo. Moon vuông Mars: căng thẳng cảm xúc chuyển hóa thành căng thẳng thể chất trực tiếp, không qua filter. H6 Cự Giải cai quản bởi Moon: hệ tiêu hóa và sức khỏe tổng thể liên kết chặt với trạng thái cảm xúc. Đây là hệ thống tích hợp, không thể tách rời.</div>
+
+    <div class="rules-label">Quy Tắc Vận Hành</div>
+
+    <div class="rule" data-n="01">
+      <div class="rule-title">Strength training 3x/tuần là maintenance tối thiểu — không phải goal</div>
+      <div class="rule-detail">Mars conjunct ASC cần resistance training cụ thể, không chỉ cardio hay movement chung. Resistance training releases Mars energy theo cách productive và prevents buildup của agitation/impulsiveness. Không phải về aesthetics — về cognitive và emotional performance. Khi skip > 7 ngày: tracking mood, patience, và decision quality sẽ show degradation rõ ràng.</div>
+      <div class="rule-metric"><strong>Tiêu chuẩn:</strong> Không được skip > 2 workout liên tiếp mà không có lý do physical injury rõ ràng. "Busy" không phải lý do.</div>
+    </div>
+
+    <div class="rule" data-n="02">
+      <div class="rule-title">7–8 giờ ngủ là non-negotiable — không bao giờ được sacrifice để work</div>
+      <div class="rule-detail">Moon Taurus H4: sự ổn định cảm xúc neo ở điều kiện vật lý. Thiếu ngủ với Moon vuông Mars tạo ra combination nguy hiểm: emotional reactivity tăng, patience giảm, executive function drops. Mày sẽ think mình đang work hard nhưng thực ra cognitive performance giảm 20-30% và quality of decisions drops đáng kể. Sleep debt không trả bằng coffee.</div>
+      <div class="rule-metric"><strong>Tiêu chuẩn:</strong> < 7 giờ ngủ 3 đêm liên tiếp = mandatory rest day, không schedule important decisions hoặc important conversations trong period đó.</div>
+    </div>
+
+    <div class="rule" data-n="03">
+      <div class="rule-title">Không để stress tích lũy > 48 giờ không có physical outlet</div>
+      <div class="rule-detail">Moon square Mars: khi emotional energy không được xả qua physical action, nó tích lũy như áp suất và tìm outlet theo cách không controlled: impulsive decisions, unnecessary conflict, creative block, hoặc physical symptoms. Physical outlet: workout intense, boxing, chạy dài, hay bất cứ vận động nào đủ intense để genuinely tired. Không phải gentle yoga khi đang ở pressure cao.</div>
+      <div class="rule-metric"><strong>Trigger point:</strong> Khi nhận ra mình đang irritable hơn bình thường hoặc có resistance mạnh với một task đơn giản — đó là signal cần physical release NGAY, không phải sau khi xong việc.</div>
+    </div>
+
+    <div class="rule" data-n="04">
+      <div class="rule-title">Hệ tiêu hóa là alarm system cho emotional state — phải được chú ý đặc biệt</div>
+      <div class="rule-detail">H6 Cự Giải = gut xử lý emotional stress. Khi stress cao hoặc anxiety active: hệ tiêu hóa là nơi đầu tiên reflect điều này. Dietary discipline cần TĂNG lên khi stress cao, không giảm. Tránh: processed food, excess caffeine (> 2 tách/ngày), alcohol khi đang stress — những thứ này amplify H6 Cancer sensitivity.</div>
+      <div class="rule-metric"><strong>Rule cụ thể:</strong> Khi đang ở period high-stress: cut caffeine xuống 1 tách/ngày, tăng whole foods, không alcohol. Đây không phải punishment — là performance optimization.</div>
+    </div>
+
+    <div class="rule" data-n="05">
+      <div class="rule-title">Weekly body check-in: energy level, sleep quality, digestion, mental clarity</div>
+      <div class="rule-detail">Thang 1-10 cho 4 metrics này mỗi cuối tuần. Không phải để obsess — mà để catch trends sớm trước khi trở thành problems. Nếu bất kỳ metric nào < 6 hai tuần liên tiếp: đây là root cause problem cần tìm, không phải symptom cần suppress. Mars conjunct ASC nghĩa là khi cơ thể nói chuyện — lắng nghe trước khi nó phải hét lên.</div>
+    </div>
+
+    <div class="rule" data-n="06">
+      <div class="rule-title">Không dùng stimulants để bù cho sleep debt hoặc tạo artificial energy</div>
+      <div class="rule-detail">Mars ASC với artificial stimulants tạo ra false ceiling performance và crash không tương xứng. Worse: nó masks warning signals mà cơ thể đang send. Caffeine: ok như enjoyment và mild boost, không ok như daily crutch để function. Nếu cần caffeine để có baseline performance — đó là signal của underlying deficit.</div>
+    </div>
+
+    <div class="limits-grid">
+      <div class="limits-box red">
+        <div class="limits-label">Không Được Phép</div>
+        <div class="limit-item">Không sacrifice sleep cho deadline — điều này tạo ra negative ROI về performance trong 3 ngày tiếp theo</div>
+        <div class="limit-item">Không ignore physical symptoms kéo dài > 1 tuần — lá số này cơ thể reflects emotional/stress state rất rõ</div>
+        <div class="limit-item">Không để > 10 ngày không có intense physical activity vì "không có thời gian"</div>
+      </div>
+      <div class="limits-box green">
+        <div class="limits-label">Đang Đi Đúng Hướng Khi</div>
+        <div class="limit-item">Resting energy level ổn định ở 7+ mà không cần stimulants vào buổi sáng</div>
+        <div class="limit-item">Không có physical symptoms liên quan đến stress/burnout trong 3 tháng qua</div>
+        <div class="limit-item">Mood sau workout consistently tốt hơn trước workout — feedback loop hoạt động</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: TÌNH YÊU -->
+  <div class="section" id="s4">
+    <div class="section-header">
+      <div class="section-number">Khía Cạnh 04</div>
+      <div class="section-title">Tình Yêu & Quan Hệ Gần</div>
+      <div class="section-basis">H7 Sư Tử (Mặt Trời H12 cai quản) · Kim Tinh Bảo Bình H1 R · Neptune hợp Kim Tinh · Hỏa Tinh H1</div>
+    </div>
+    <div class="section-insight">H7 Leo được cai quản bởi Sun trong H12: đối tác lý tưởng là người hiểu và tôn trọng chiều sâu nội tâm và nhu cầu solitude, không phải người cần sự chú ý liên tục. Kim Tinh Aquarius H1 nghịch hành: giá trị và cách yêu rất unconventional, cần thời gian dài hơn đáng kể để biết mình thực sự muốn gì. Neptune hợp Kim Tinh: xu hướng idealize partner trong giai đoạn đầu — đây là pattern cần actively counter, không passive watch.</div>
+
+    <div class="rules-label">Quy Tắc Vận Hành</div>
+
+    <div class="rule" data-n="01">
+      <div class="rule-title">Người phù hợp phải tôn trọng solitude và deep work như tôn trọng nhu cầu không khí — không phải "chấp nhận"</div>
+      <div class="rule-detail">Distinguish rõ ràng giữa partner "chấp nhận" vs partner "genuinely understand và value" nhu cầu này. Sun H12 + Aquarius H1: nếu không có đủ solitude và space to think, mày sẽ drain trong relationship và bắt đầu pull back mà cả hai không hiểu tại sao. Đây không phải về introversion — đây là energetic architecture. Phải discuss explicitly trước khi commit, không để assumption.</div>
+      <div class="rule-metric"><strong>Test cụ thể:</strong> Sau 3 ngày cô đơn hoàn toàn, mày cảm thấy gì về người đó? Miss = good signal. Relief = warning signal.</div>
+    </div>
+
+    <div class="rule" data-n="02">
+      <div class="rule-title">Không rush vào committed relationship trong vòng < 12 tháng quen biết thực sự</div>
+      <div class="rule-detail">Kim Tinh Bảo Bình nghịch hành: cần thời gian dài hơn trung bình để genuinely understand giá trị và needs của mình trong relationship. Neptune-Venus conjunction: 6 tháng đầu khả năng cao là đang yêu projection, không phải người thật. Neptune fog tan dần sau 12-18 tháng và thường reveal reality rất khác. 12 tháng minimum không phải rule cứng — nhưng bất kỳ commitment lớn nào trước đó cần extra scrutiny.</div>
+    </div>
+
+    <div class="rule" data-n="03">
+      <div class="rule-title">Neptune check định kỳ: "Đây là người thật hay projection của mình?"</div>
+      <div class="rule-detail">Thực hành cụ thể mỗi 3 tháng: viết ra 5 thứ mày genuinely không thích hoặc không đồng ý với partner. Nếu không viết được 5 thứ — Neptune đang active và mày cần tăng tần suất real conversations về disagreements. Idealization với Neptune-Venus tạo ra cycle: over-give → crash khi fog tan → disappointment → withdrawal. Pre-emptive reality check là bảo vệ cho cả hai.</div>
+    </div>
+
+    <div class="rule" data-n="04">
+      <div class="rule-title">Relationship phải có intellectual và vision dimension mạnh — không chỉ emotional hoặc physical</div>
+      <div class="rule-detail">Aquarius H1, Mercury Nhân Mã H11: thiếu intellectual stimulation là một dạng starvation chậm với lá số này. Không phải đòi hỏi partner phải "thông minh hơn" — mà là phải có genuine intellectual exchange, curious about each other's thinking, có thể disagree về ideas mà không conflict. Sau 2-3 năm nếu không còn thứ gì mới để khám phá về nhau intellectually — đó là serious warning.</div>
+    </div>
+
+    <div class="rule" data-n="05">
+      <div class="rule-title">Không ở trong relationship nào làm mày phải shrink sáng tạo, curiosity, hoặc ambition để fit in</div>
+      <div class="rule-detail">Đây là non-negotiable absolute. Bất kỳ dynamic nào require mày phải become smaller để partner cảm thấy comfortable — đó không phải compatibility vấn đề có thể fix bằng communication. Với Aquarius H1 stellium, đây là slow existential drain. Timeline: nếu mày nhận ra mình đang self-censor dreams hoặc projects vì reaction của partner — exit conversation, không phải extend.</div>
+    </div>
+
+    <div class="rule" data-n="06">
+      <div class="rule-title">Mars H1: thể chất tốt là prerequisite cho emotional intimacy chất lượng</div>
+      <div class="rule-detail">Khi Mars energy bị suppressed — irritability trong relationship tăng, patience giảm, physical intimacy suffers. Không phải về partner trong trường hợp này. Khi nhận ra mình consistently irritable hoặc withdrawn với partner — check thể chất trước khi assume relationship problem. Solve physical state → reassess relationship dynamic.</div>
+    </div>
+
+    <div class="limits-grid">
+      <div class="limits-box red">
+        <div class="limits-label">Không Được Phép</div>
+        <div class="limit-item">Không confuse Neptune-Venus infatuation với compatibility — đây là hai thứ hoàn toàn khác nhau và không tương quan</div>
+        <div class="limit-item">Không stay trong relationship vì sợ hurt người kia hoặc vì đã invest nhiều — sunk cost không phải cơ sở cho future decisions</div>
+        <div class="limit-item">Không expect partner đọc được nhu cầu solitude — phải communicate explicitly và regularly</div>
+      </div>
+      <div class="limits-box green">
+        <div class="limits-label">Đang Đi Đúng Hướng Khi</div>
+        <div class="limit-item">Partner có thể give mày 3+ ngày alone space mà không cần reassurance và mày trở về refreshed</div>
+        <div class="limit-item">Mày có thể nói về ambitious goals mà không cảm thấy cần tone down vì reaction của partner</div>
+        <div class="limit-item">Sau 18 tháng, vẫn có genuine curiosity về cách partner nhìn thế giới</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: MẠNG LƯỚI -->
+  <div class="section" id="s5">
+    <div class="section-header">
+      <div class="section-number">Khía Cạnh 05</div>
+      <div class="section-title">Mạng Lưới & Xã Hội</div>
+      <div class="section-basis">Thủy Tinh + Diêm Vương H11 Nhân Mã · Mộc H1 · Kim Tinh Bảo Bình H1</div>
+    </div>
+    <div class="section-insight">Mercury + Pluto H11: power network — không phải quantity mà là depth của transformation. Những người thực sự valuable với lá số này là những người buộc mày phải fundamentally rethink thứ gì đó. Mộc H1: natural magnetism có sẵn, không cần aggressive networking. Jupiter energy attract people tự nhiên khi mày là chính mình — forced networking drains energy không tương xứng. H11 Nhân Mã: cross-cultural, cross-disciplinary connections đặc biệt productive.</div>
+
+    <div class="rules-label">Quy Tắc Vận Hành</div>
+
+    <div class="rule" data-n="01">
+      <div class="rule-title">Curate network có chủ đích: chỉ invest serious time vào người challenge worldview hoặc vùng kiến thức của mày</div>
+      <div class="rule-detail">Diêm Vương H11: những connections có giá trị nhất là những cái tạo ra transformation. Networking với người confirm những gì mày đã biết là comfortable nhưng không generates real ROI. Hỏi trước khi invest time vào relationship mới: "Người này có thể buộc mình phải suy nghĩ lại ít nhất 1 assumption cơ bản không?" Nếu câu trả lời là không — là acquaintance, không phải investment.</div>
+      <div class="rule-metric"><strong>Tiêu chuẩn:</strong> Ít nhất 3 người trong network mà mày học được thứ gì đó fundamental mỗi năm — không phải information, mà là shift trong perspective.</div>
+    </div>
+
+    <div class="rule" data-n="02">
+      <div class="rule-title">Maintain ít nhất 1 intellectual community nhỏ, chất lượng cao nơi mày có thể nói chuyện deep mà không simplify</div>
+      <div class="rule-detail">Mercury + Pluto H11: bộ não Aquarius/Sagittarius cần high-friction intellectual environment để perform ở đỉnh. Community này: 5-15 người, shared interest sâu trong ít nhất 1 lĩnh vực, culture tôn trọng complexity. Nếu không có trong life hiện tại — tạo ra nó. Group chat không đủ — cần regular meeting hoặc exchange thực sự.</div>
+    </div>
+
+    <div class="rule" data-n="03">
+      <div class="rule-title">Build international và cross-disciplinary connections có chủ đích mỗi năm</div>
+      <div class="rule-detail">H11 Nhân Mã: knowledge và opportunities từ outside cultural/professional bubble của mày là đặc biệt valuable. Target: ít nhất 2 meaningful relationships mới mỗi năm với người từ context fundamentally khác (different country, different field, different socioeconomic background). Không phải surface acquaintance — phải đến mức thực sự exchange ideas và perspectives.</div>
+    </div>
+
+    <div class="rule" data-n="04">
+      <div class="rule-title">Give value trước — nhưng track một chiều sau 6 tháng</div>
+      <div class="rule-detail">Jupiter H1 có generous nature — đây là strength, không phải naivety. Nhưng Aquarius là sign biết distinguish giữa genuine exchange và exploitation. Rule: give generously trong 6 tháng đầu của bất kỳ meaningful relationship nào. Sau 6 tháng: nếu exchange consistently một chiều mà không có reciprocity trong bất kỳ form nào — graceful reduction of investment. Không cold, không drama, chỉ quiet reallocation.</div>
+    </div>
+
+    <div class="rule" data-n="05">
+      <div class="rule-title">Không giữ close relationships vì guilt, obligation, hoặc history dài</div>
+      <div class="rule-detail">Diêm Vương H11 sẽ force endings dù sao — thường theo cách disruptive hơn nếu mày không chủ động. Relationships held together bởi obligation thay vì genuine mutual value drain energy không tương xứng với Aquarius H1. Không phải cut everyone off — mà là honest reclassification: ai là genuine inner circle, ai là acquaintance, ai là người cần boundary rõ hơn.</div>
+    </div>
+
+    <div class="rule" data-n="06">
+      <div class="rule-title">Không spend social energy để maintain appearances cho audience không aligned với direction</div>
+      <div class="rule-detail">Jupiter H1 already có magnetic energy — chasing approval là waste của resource quý giá nhất. Nếu mày đang cảm thấy phải perform để được accepted trong một group — đó là wrong room. Social capital của mày được tạo ra bởi genuineness, không bởi performance. Exit politely, không explanation needed.</div>
+    </div>
+
+    <div class="limits-grid">
+      <div class="limits-box red">
+        <div class="limits-label">Không Được Phép</div>
+        <div class="limit-item">Không network up vì status thuần túy — Bọ Cạp MC nhìn thấu transactional approach, và người đáng connect nhất thường cũng vậy</div>
+        <div class="limit-item">Không giữ everyone happy bằng cách không có strong opinions — Aquarius H1 được respected vì conviction, không vì agreeableness</div>
+      </div>
+      <div class="limits-box green">
+        <div class="limits-label">Đang Đi Đúng Hướng Khi</div>
+        <div class="limit-item">Người tìm đến mày vì thinking và depth, không chỉ vì connections hoặc favors</div>
+        <div class="limit-item">Sau conversations với inner circle, mày consistently thấy mình think khác đi hoặc see something new</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: HỌC HỎI -->
+  <div class="section" id="s6">
+    <div class="section-header">
+      <div class="section-number">Khía Cạnh 06</div>
+      <div class="section-title">Học Hỏi & Trí Tuệ</div>
+      <div class="section-basis">Thủy Tinh Nhân Mã H11 · Thổ Tinh Dương Cưu H3 · La Hầu Xử Nữ H8 · Mộc H1</div>
+    </div>
+    <div class="section-insight">Mercury Sagittarius H11: học nhanh, connects big picture brilliantly, nhưng trap chính là skim nhiều thứ thay vì master một thứ. Saturn Aries H3: kỷ luật tư duy và communication là khu vực cần được build có hệ thống — không natural, phải earned. North Node Virgo H8: destiny trajectory explicitly đòi hỏi analytical precision và deep knowledge. Mâu thuẫn này phải được managed: Mercury muốn đi rộng, North Node demands đi sâu.</div>
+
+    <div class="rules-label">Quy Tắc Vận Hành</div>
+
+    <div class="rule" data-n="01">
+      <div class="rule-title">Structured learning plan mỗi quý — không học random theo rabbit holes</div>
+      <div class="rule-detail">Mỗi quý: chọn 1-2 chủ đề để đi deep (3-5 nguồn primary, không phải summaries), và tối đa 3-4 chủ đề phụ để "skim intelligently". Ratio phải là: 70% depth, 30% breadth. Mercury Sagittarius sẽ want to flip this — phải actively resist. Rabbit holes được phép AFTER hitting depth target trên main topics, không before.</div>
+      <div class="rule-metric"><strong>Output bắt buộc:</strong> Mỗi cuối quý: có thể teach main topic to someone smart in 30 minutes không cần notes.</div>
+    </div>
+
+    <div class="rule" data-n="02">
+      <div class="rule-title">Viết để hiểu — mỗi thứ học được phải được articulate bằng ngôn ngữ của mình</div>
+      <div class="rule-detail">Saturn H3 Dương Cưu: learning thực sự đến qua active production, không passive consumption. Sau mỗi book, course, hoặc deep-dive: viết ít nhất 1-2 trang synthesis bằng ngôn ngữ của mình. Không summary — mà là "đây là cách mình hiểu nó và tại sao nó matter". Nếu không viết được flowing — chưa thực sự hiểu và không thể deploy được.</div>
+      <div class="rule-metric"><strong>Rule cụ thể:</strong> Không cho phép bản thân tiếp tục sang source mới nếu chưa viết được synthesis của source hiện tại trong < 500 words.</div>
+    </div>
+
+    <div class="rule" data-n="03">
+      <div class="rule-title">Phải có foundation vững trong 3 core areas: financial intelligence, behavioral psychology, và 1 technical domain</div>
+      <div class="rule-detail">La Hầu Xử Nữ H8 specifically: financial + psychological knowledge ở mức practical mastery. Technical domain: bất kỳ lĩnh vực nào đòi hỏi systematic, analytical thinking (engineering, statistics, law, programming, medicine...). Không phải overview — ở mức có thể làm việc thực tế và identify when others are wrong.</div>
+    </div>
+
+    <div class="rule" data-n="04">
+      <div class="rule-title">Test knowledge bằng deployment trong vòng 30 ngày sau khi học</div>
+      <div class="rule-detail">Mercury Sagittarius collect ideas nhanh nhưng risk là knowledge becomes identity thay vì tool. Rule: mỗi thứ học được có value nếu được applied — không matter bao nhiêu impressive sounding nếu không change cách mày làm việc hoặc think. Mỗi learning investment: viết ra "mày sẽ dùng cái này như thế nào trong 30 ngày tới" trước khi bắt đầu học.</div>
+    </div>
+
+    <div class="rule" data-n="05">
+      <div class="rule-title">Không skip fundamentals để nhảy vào advanced — Saturn H3 collect debt này với lãi suất cao</div>
+      <div class="rule-detail">Saturn trong cung tư duy và communication: foundational gaps sẽ surface ở worst possible moment — thường khi đang present, khi bị challenged bởi expert, hoặc khi cần execute ở level cao nhất. Investment vào basics pays disproportionate dividend. Nếu cảm thấy "tôi đã biết cái này rồi" với foundational material — đó thường là Sagittarius overconfidence, không phải actual mastery.</div>
+    </div>
+
+    <div class="rule" data-n="06">
+      <div class="rule-title">Annual learning audit: đâu là knowledge gap lớn nhất cản trở mục tiêu chính?</div>
+      <div class="rule-detail">Mỗi năm: identify 1 knowledge gap mà nếu fill được sẽ unlock 10x more capability trong main pursuit. Này thường khó identify vì nó là thứ mày không biết là mày không biết. Process: hỏi 3 người giỏi hơn mày trong lĩnh vực "Anh/chị thấy mình thiếu gì nhất?" Câu trả lời của họ thường pattern vào cùng 1-2 areas.</div>
+    </div>
+
+    <div class="limits-grid">
+      <div class="limits-box red">
+        <div class="limits-label">Không Được Phép</div>
+        <div class="limit-item">Không đọc > 3 books song song — Mercury Sagittarius signature move nhưng không reach depth với cách này</div>
+        <div class="limit-item">Không learn để impress — knowledge hoarding không build thực lực, chỉ build identity</div>
+      </div>
+      <div class="limits-box green">
+        <div class="limits-label">Đang Đi Đúng Hướng Khi</div>
+        <div class="limit-item">Có thể explain một concept phức tạp cho người không biết gì về lĩnh vực đó trong 5 phút, không jargon</div>
+        <div class="limit-item">Người trong lĩnh vực hỏi ý kiến mày về technical questions, không chỉ về direction/vision</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7: SÁNG TẠO -->
+  <div class="section" id="s7">
+    <div class="section-header">
+      <div class="section-number">Khía Cạnh 07</div>
+      <div class="section-title">Sáng Tạo & Biểu Đạt</div>
+      <div class="section-basis">POF Song Tử H5 · Mặt Trời Ngư Dương H12 · Kim Tinh Bảo Bình H1 · Thiên Vương H1</div>
+    </div>
+    <div class="section-insight">Part of Fortune H5 Gemini: fortune — cả literal và metaphorical — accumulates qua creative expression, đặc biệt qua ideas và communication. Sun Pisces H12: creative power được tích lũy trong solitude và expressed khi chín muồi — không phải daily content machine. Thiên Vương H1: genuine originality là available, không phải effort-based — khi conditions right, nó xuất hiện. Điều kiện đó là: đủ solitude, đủ input, và không tự censor quá sớm.</div>
+
+    <div class="rules-label">Quy Tắc Vận Hành</div>
+
+    <div class="rule" data-n="01">
+      <div class="rule-title">Phải có creative output cụ thể mỗi tháng — không nhất thiết publish, nhưng phải exist</div>
+      <div class="rule-detail">POF H5: fortune accumulates qua creative acts. Output có thể là: writing, design, code với creative intent, framework mới, teaching, research synthesis, anything where mày made something that didn't exist. Không có output = không có fortune accumulation theo hướng lá số này chỉ định. Quantity thấp nhất có thể nhưng phải > 0 mỗi tháng.</div>
+    </div>
+
+    <div class="rule" data-n="02">
+      <div class="rule-title">Authentic trước khi strategic — create from inside first, then shape for outside</div>
+      <div class="rule-detail">Sun H12: thứ được tạo ra từ chỗ sâu nhất và chân thực nhất là thứ có power thật. Khi optimize cho audience trước khi clarify cái mày thực sự muốn nói — output trở nên weak và forgettable. Process: draft hoàn toàn for yourself first, không nghĩ đến reader/viewer. Sau đó shape cho audience. Không phải ngược lại. Thứ tự này matters.</div>
+    </div>
+
+    <div class="rule" data-n="03">
+      <div class="rule-title">Không tự censor vì "quá unconventional" — đó là signal đi đúng hướng</div>
+      <div class="rule-detail">Aquarius H1 + Thiên Vương H1: bất kỳ idea nào mà phản ứng đầu tiên của mày là "chắc không ai muốn cái này" hoặc "cái này kỳ quá" — đó là candidate đáng explore nhất. Genuine novelty luôn feel awkward trước khi feel right. Có một archive cho tất cả những ideas này — đừng delete, xem lại sau 6 tháng. Nhiều trong số đó sẽ make sense muộn hơn.</div>
+    </div>
+
+    <div class="rule" data-n="04">
+      <div class="rule-title">Không wait until perfect — Sun H12 có xu hướng internalize quá lâu</div>
+      <div class="rule-detail">H12 Sun tạo ra pattern: "đây chưa đủ sẵn sàng để show". Điều này useful để avoid immature output nhưng becomes trap khi kéo dài vô tận. Rule cụ thể: bất kỳ creative work nào đã được worked on > 30 ngày phải được shared với ít nhất 1 người mày trust trong 7 ngày tới — không phải để publish, mà để break the internal loop.</div>
+    </div>
+
+    <div class="rule" data-n="05">
+      <div class="rule-title">Creative work và professional work phải cross-pollinate — không để chúng là parallel separate tracks</div>
+      <div class="rule-detail">POF H5 trong context của Bọ Cạp MC: sáng tạo có power nhất khi nó transforms professional context. Tìm cách bring creative thinking vào work problems. Không giữ creativity thuần túy cho side projects. Synthesis là nơi Aquarius/Sagittarius combination tạo ra actual differentiation.</div>
+    </div>
+
+    <div class="limits-grid">
+      <div class="limits-box red">
+        <div class="limits-label">Không Được Phép</div>
+        <div class="limit-item">Không đo creative value bằng immediate engagement — H12 Sun creative often leads the market, không follow nó</div>
+        <div class="limit-item">Không recycle và polish cùng ideas liên tục — Aquarius H1 có genuine originality available, dùng nó</div>
+      </div>
+      <div class="limits-box green">
+        <div class="limits-label">Đang Đi Đúng Hướng Khi</div>
+        <div class="limit-item">Có ít nhất 1 thứ mày tạo ra mà người khác không nghĩ ra nhưng sau khi thấy họ hiểu ngay tại sao nó đúng</div>
+        <div class="limit-item">Creative work và professional reputation bắt đầu reinforce nhau thay vì tách biệt</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 8: NỘI TÂM -->
+  <div class="section" id="s8">
+    <div class="section-header">
+      <div class="section-number">Khía Cạnh 08</div>
+      <div class="section-title">Nội Tâm & Chiều Sâu</div>
+      <div class="section-basis">Mặt Trời H12 Ngư Dương · Hải Vương H12 · La Hầu H8 · Thiên Vương H1</div>
+    </div>
+    <div class="section-insight">Sun + Neptune cùng H12: chiều sâu nội tâm không phải bonus — đây là source code của toàn bộ capacity. Không có inner life active = external output mất power source thật. Đây là vùng hầu hết người có stellium H1 ignore vì energy H1 tạo ra illusion rằng action là đủ. Nhưng H12 Sun: khi không nuôi dưỡng inner world, action trở nên reactive và scattered thay vì purposeful và powerful.</div>
+
+    <div class="rules-label">Quy Tắc Vận Hành</div>
+
+    <div class="rule" data-n="01">
+      <div class="rule-title">30 phút solitude không có agenda mỗi ngày — không phải meditation technique, chỉ cần quiet</div>
+      <div class="rule-detail">Sun H12: thời gian này là nơi information từ deep unconscious được processed và integrated. Không phải productivity time — là source recharge time. Không nhất thiết morning. Không nhất thiết phải sit still. Walk alone, sit in nature, nấu ăn mà không có podcast — bất cứ gì mà mày alone with your thoughts mà không có input từ bên ngoài. Khi không có > 3 ngày: nhận thấy mình react thay vì respond.</div>
+    </div>
+
+    <div class="rule" data-n="02">
+      <div class="rule-title">Journaling ít nhất 3x/tuần — không cần structure, stream of consciousness là đủ</div>
+      <div class="rule-detail">Neptune H12 + Mercury Sagittarius: rất nhiều processing xảy ra ở unconscious level. Viết là cách pull nó lên surface. Không cần hay, không cần coherent. Viết đến khi surprise yourself bằng những gì emerge — đó là moment có giá trị. Đây là data source quan trọng nhất mày có về chính mình và về những gì thực sự going on underneath performance.</div>
+    </div>
+
+    <div class="rule" data-n="03">
+      <div class="rule-title">Quarterly identity audit: thứ gì cần die để thứ mới emerge?</div>
+      <div class="rule-detail">La Hầu H8 + Bọ Cạp MC: transformation là core mechanism. Mỗi quý: ngồi với câu hỏi "Belief, habit, identity, hoặc relationship nào đang hold mình back mà mình chưa muốn nhìn nhận?" Không phải để punish mà để prune. Bọ Cạp shedding skin là power act. Giữ lại những gì expired là nguồn gốc của stagnation — ngay cả khi no obvious external stagnation, internal accumulation eventually surfaces.</div>
+      <div class="rule-metric"><strong>Output bắt buộc:</strong> Sau mỗi quarterly review: có thể viết ra 1 thứ cụ thể mày đang để go và 1 thứ mày đang build vào thay thế.</div>
+    </div>
+
+    <div class="rule" data-n="04">
+      <div class="rule-title">Study tâm lý học chiều sâu và philosophy of transformation như core knowledge — không phải hobby</div>
+      <div class="rule-detail">La Hầu H8 Xử Nữ: destiny trong transformation knowledge đòi hỏi rigor, không phải casual spiritual browsing. Chọn 1 hệ thống và đi đủ sâu để nó actually change cách mày operate. Options: Jungian psychology, Stoicism, Buddhist philosophy, depth astrology, shadow work frameworks. Key: không collector nhiều systems — go deep vào ít nhất 1.</div>
+    </div>
+
+    <div class="rule" data-n="05">
+      <div class="rule-title">Không dùng external achievement để bypass internal work</div>
+      <div class="rule-detail">H12 Sun không bị mua chuộc bởi external achievement. Unresolved internal material sẽ sabotage external gains eventually — thường theo cách không obvious: self-sabotage khi gần đến goal, unexplained depression sau achievement, repeated patterns trong relationships hoặc career. "Đang process" không phải substitute cho genuine engagement với internal work. Both required, simultaneously.</div>
+    </div>
+
+    <div class="limits-grid">
+      <div class="limits-box red">
+        <div class="limits-label">Không Được Phép</div>
+        <div class="limit-item">Không use busyness để avoid inner work — H12 Sun không được mua chuộc bởi external achievement, unresolved stuff surfaces eventually</div>
+        <div class="limit-item">Không use spiritual framework để bypass uncomfortable action — H12 có risk này, "đang process" ≠ đang làm</div>
+      </div>
+      <div class="limits-box green">
+        <div class="limits-label">Đang Đi Đúng Hướng Khi</div>
+        <div class="limit-item">Mày biết mình đang cảm thấy gì và tại sao trong hầu hết tình huống — không phải guess-work</div>
+        <div class="limit-item">External setbacks process nhanh hơn đáng kể so với 1 năm trước</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 9: THỜI GIAN & NĂNG LƯỢNG -->
+  <div class="section" id="s9">
+    <div class="section-header">
+      <div class="section-number">Khía Cạnh 09</div>
+      <div class="section-title">Thời Gian & Năng Lượng</div>
+      <div class="section-basis">Mặt Trời H12 · Hỏa ASC · Mặt Trăng Taurus H4 · Thổ Tinh H3 · Mộc H1</div>
+    </div>
+    <div class="section-insight">Mars ASC: energy burns hot và needs outlet — nhưng burns out if mismanaged. Sun H12: cognitive và creative peak xảy ra trong periods of relative quiet và depth, không phải scattered activity. Moon Taurus H4: cần transition rituals và grounding routines giữa các modes. Saturn H3: batching và structuring communication thay vì reactive mode tạo ra disproportionate returns. Đây là lá số cần energy management precision — không phải time management mà là state management.</div>
+
+    <div class="rules-label">Quy Tắc Vận Hành</div>
+
+    <div class="rule" data-n="01">
+      <div class="rule-title">Deep work block 8–10am là sacred — không meetings, không messages, không interruption</div>
+      <div class="rule-detail">Mars/ASC energy peak thường xảy ra trong 3 giờ đầu sau khi thức dậy. Sun H12: creative và strategic capacity cần quiet morning environment. Này là non-negotiable block. Không "check just one email". Không "quick meeting". Bảo vệ block này với same urgency mày bảo vệ giấc ngủ. Nếu có external obligations buộc break block này — compensate bằng second deep work block 2-4pm.</div>
+      <div class="rule-metric"><strong>Tiêu chuẩn:</strong> Deep work block bị interrupt < 2 lần/tuần. Nếu thường xuyên hơn — cần restructure schedule hoặc renegotiate commitments.</div>
+    </div>
+
+    <div class="rule" data-n="02">
+      <div class="rule-title">Batch communications — không real-time response mode trong giờ deep work</div>
+      <div class="rule-detail">Saturn H3: kỷ luật trong communication là competitive advantage. Check và respond messages ở 2-3 specific times/ngày, không reactive throughout the day. Thông báo cho people quan trọng về này để set expectation. Attention fragmentation với Mars ASC tạo ra expensive cognitive switching costs — mỗi interrupt sau deep work cần 15-20 phút để return to depth.</div>
+    </div>
+
+    <div class="rule" data-n="03">
+      <div class="rule-title">Không schedule > 3 cognitively demanding items trong 1 ngày</div>
+      <div class="rule-detail">Mars ASC burns hot but burns out. "Cognitively demanding" bao gồm: important presentation, difficult conversation, complex problem-solving, important decision, high-stakes meeting. Hơn 3 items loại này trong 1 ngày = performance degradation trên tất cả items sau item đầu tiên. Thà làm 2-3 thứ xuất sắc hơn là 6 thứ ở mức mediocre.</div>
+    </div>
+
+    <div class="rule" data-n="04">
+      <div class="rule-title">Có transition ritual giữa modes — không jump từ meeting vào deep work ngay</div>
+      <div class="rule-detail">Moon Taurus H4 cần physical/sensory anchors để shift modes. Transition ritual: 10-15 phút walk, hoặc brief physical reset (water, food, stretch), hoặc short journaling. Không về mặt time management — về mặt state management. Brain state từ meetings (social, verbal, reactive) và deep work state (focused, creative, generative) require explicit switching để perform ở mức cao ở cả hai.</div>
+    </div>
+
+    <div class="rule" data-n="05">
+      <div class="rule-title">Weekly energy audit: đâu là activities nạp energy, đâu là drain</div>
+      <div class="rule-detail">Mỗi cuối tuần: review lịch tuần vừa rồi và tag mỗi item là "nạp" (mày came out with more energy than you went in) hoặc "drain" (mày came out with less). Sau 4 tuần: có đủ data để identify patterns. Target: shift schedule về phía > 50% time trong "nạp" categories. Không phải eliminate drains — mà là make sure naps consistently outnumber drains.</div>
+    </div>
+
+    <div class="rule" data-n="06">
+      <div class="rule-title">Giữ ít nhất 10% time trong tuần là unstructured exploration — không có deliverable, không có agenda</div>
+      <div class="rule-detail">Aquarius H1 + Thiên Vương: cần "wild card" time để genuinely new ideas emerge. Không phải leisure — mà là free exploration time: đọc gì mà mày genuinely curious về, follow any rabbit hole without justification, experiment without goal. Ironically, đây là source của nhiều breakthrough insights nhất. Schedule nó như appointment nếu cần — hoặc nó sẽ bị replaced by urgent items.</div>
+    </div>
+
+    <div class="limits-grid">
+      <div class="limits-box red">
+        <div class="limits-label">Không Được Phép</div>
+        <div class="limit-item">Không schedule important strategic work sau 8pm — Sun H12 creative energy không optimized cho late night output; decisions quality drops đáng kể</div>
+        <div class="limit-item">Không treat "busy" như badge of honor — Mars ASC energy là quality resource, phải be deployed strategically, không scattered</div>
+      </div>
+      <div class="limits-box green">
+        <div class="limits-label">Đang Đi Đúng Hướng Khi</div>
+        <div class="limit-item">Có ít nhất 2 uninterrupted deep work blocks mỗi ngày, 4+ ngày/tuần</div>
+        <div class="limit-item">Cuối tuần không feel depleted — feel recharged (or at least neutral)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 10: MÔI TRƯỜNG -->
+  <div class="section" id="s10">
+    <div class="section-header">
+      <div class="section-number">Khía Cạnh 10</div>
+      <div class="section-title">Môi Trường & Không Gian</div>
+      <div class="section-basis">Mặt Trăng Taurus H4 · Mặt Trời H12 · La Hầu Xử Nữ H8 · Aquarius H1</div>
+    </div>
+    <div class="section-insight">Moon Taurus H4: emotional và cognitive stability được neo ở sensory environment. Physical surroundings không phải background — chúng actively influence performance state với lá số này. Sun H12: workspace cần deliberate design để support deep work — cluttered environment creates mental noise that competes with H12 depth. Xử Nữ North Node: precision environment supports precision thinking.</div>
+
+    <div class="rules-label">Quy Tắc Vận Hành</div>
+
+    <div class="rule" data-n="01">
+      <div class="rule-title">Workspace phải physically separate với rest space — không work trên giường hoặc sofa</div>
+      <div class="rule-detail">Moon Taurus H4 cần physical anchoring của states. Khi work space và rest space overlap, cả hai bị contaminated — mày không work tốt bằng, và không rest tốt bằng. Không nhất thiết phải là different room — nhưng phải là different setup, different chair, different physical orientation mà brain associate với different mode. Transition ritual vào và ra khỏi workspace.</div>
+    </div>
+
+    <div class="rule" data-n="02">
+      <div class="rule-title">Zero visible clutter trong workspace — mọi thứ không đang được dùng phải có chỗ và phải ở chỗ đó</div>
+      <div class="rule-detail">Xử Nữ North Node: precision environment supports precision thinking. Visual clutter creates background cognitive load. Không phải về aesthetics — về performance. Monthly workspace reset: clear everything, only put back what was actively used in the past month. Items that haven't been touched in 30 days phải được decided: keep và assigned place, hoặc remove.</div>
+    </div>
+
+    <div class="rule" data-n="03">
+      <div class="rule-title">Deliberate control của temperature, lighting, và ambient sound trong deep work time</div>
+      <div class="rule-detail">Moon Taurus needs sensory stability. Optimal deep work environment với lá số này thường: cool temperature (18-21°C), natural light hoặc warm artificial light, consistent ambient sound (binaural beats, rain, hoặc silence). Không phải universal — mày cần identify cái gì work for you và then replicate consistently. Consistency itself là một phần của signal cho brain "this is depth mode".</div>
+    </div>
+
+    <div class="rule" data-n="04">
+      <div class="rule-title">Digital environment cần curation định kỳ — không phải mọi thứ deserve access đến attention</div>
+      <div class="rule-detail">Monthly digital audit: unfollow/mute/unsubscribe bất cứ gì không tạo ra genuine value trong 30 ngày qua. Phone setup: notifications tắt cho tất cả non-essential apps, check email/messages ở designated times only. Desktop: không có files trên desktop, clean browser bookmarks quarterly. Digital clutter drains mày qua micro-attentional pulls — nhỏ nhưng compounding.</div>
+    </div>
+
+    <div class="rule" data-n="05">
+      <div class="rule-title">Có ít nhất 1 physical space outside home/office nơi mày think tốt nhất — và go there deliberately</div>
+      <div class="rule-detail">Sun H12 + Moon Taurus: có specific physical environments trigger deeper thinking và creative flow. Identify space đó (specific café, park, library, hoặc anywhere). Schedule "thinking sessions" ở đó monthly. Không phải general working — specifically for strategic thinking, creative exploration, và decisions mà cần different perspective. Physical change creates mental change.</div>
+    </div>
+
+    <div class="limits-grid">
+      <div class="limits-box red">
+        <div class="limits-label">Không Được Phép</div>
+        <div class="limit-item">Không work trong environment có nhiều interruptions và chấp nhận nó như normal — đây creates chronic shallow work pattern</div>
+        <div class="limit-item">Không giữ physical items trong workspace mà chỉ tạo ra guilt hoặc unfinished feeling</div>
+      </div>
+      <div class="limits-box green">
+        <div class="limits-label">Đang Đi Đúng Hướng Khi</div>
+        <div class="limit-item">Bước vào workspace và feel immediate shift into work mode — environment is doing part of the work</div>
+        <div class="limit-item">Monthly environment reset takes < 30 minutes vì system is working</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 11: RA QUYẾT ĐỊNH -->
+  <div class="section" id="s11">
+    <div class="section-header">
+      <div class="section-number">Khía Cạnh 11</div>
+      <div class="section-title">Ra Quyết Định</div>
+      <div class="section-basis">Mặt Trời tam hợp Mặt Trăng · Thổ Tinh H3 · Mộc Tinh H1 · Hỏa Tinh ASC · Neptune Kim Tinh</div>
+    </div>
+    <div class="section-insight">Sun trine Moon 1.82°: khi aligned, decision-making với lá số này là genuinely strong — gut feel + analytical capacity working together. Nhưng khi misaligned (exhausted, emotionally activated, under pressure), decisions lean toward what feels exciting rather than what's right. Neptune conjunct Venus: thêm một layer của idealization risk trong decisions liên quan đến people và opportunities. Mars ASC: default bias toward action cần deliberate counter trên Type 1 decisions.</div>
+
+    <div class="rules-label">Quy Tắc Vận Hành</div>
+
+    <div class="rule" data-n="01">
+      <div class="rule-title">Phân loại mỗi decision: Type 1 (không reversible) vs Type 2 (reversible) — approach hoàn toàn khác nhau</div>
+      <div class="rule-detail">Type 2 (reversible): bias toward action, decide fast, iterate. Mars ASC is appropriate here. Type 1 (không reversible hoặc rất difficult to reverse): major career moves, financial commitments > 20% net worth, relationship commitments, location changes, public statements về beliefs, shutting down an option permanently. Type 1 cần deliberate slowdown, regardless of Mars ASC default.</div>
+    </div>
+
+    <div class="rule" data-n="02">
+      <div class="rule-title">Không ra Type 1 decisions khi thiếu ngủ, emotionally activated, hoặc under timeline pressure không real</div>
+      <div class="rule-detail">Sun trine Moon: ở trạng thái tích hợp, intuition của mày là strong signal. Ở trạng thái phân ly — intuition bị distorted bởi anxiety hoặc excitement. Checklist trước Type 1 decision: (1) Mày có ngủ đủ 3 đêm gần nhất không? (2) Có đang emotionally activated vì external event không? (3) Có deadline áp lực không có real consequence nếu miss không? Nếu bất kỳ câu nào là yes — delay ít nhất 24 giờ.</div>
+    </div>
+
+    <div class="rule" data-n="03">
+      <div class="rule-title">Pre-mortem trước mọi Type 1 decision — viết cụ thể cách nó có thể fail</div>
+      <div class="rule-detail">Không phải pessimism — là cognitive insurance. Mars ASC + Jupiter H1 + Aquarius: combination này tạo ra optimism bias về khả năng execute. Pre-mortem: "Giả sử 12 tháng sau nhìn lại, decision này đã fail. Cụ thể nó fail như thế nào và tại sao?" Viết ra ít nhất 3 failure modes. Nếu không thể viết được 3 failure modes — mày đang under-analyzing.</div>
+      <div class="rule-metric"><strong>Rule cụ thể:</strong> Không commit vào bất kỳ Type 1 decision nào mà chưa có written pre-mortem với ít nhất 3 failure scenarios.</div>
+    </div>
+
+    <div class="rule" data-n="04">
+      <div class="rule-title">Gut feel là data point, không phải conclusion — phải corroborate với evidence</div>
+      <div class="rule-detail">Jupiter H1 + Aquarius tạo ra combination vừa có strong intuition vừa có tendency để rationalize decisions đã made. Distinction: intuition là khi mày feel something before knowing why, và investigation confirms it. Rationalization là khi mày feel something và then select evidence to support it. Rule: write down what gut says first, then investigate as if you're trying to disprove it.</div>
+    </div>
+
+    <div class="rule" data-n="05">
+      <div class="rule-title">Sleep on important decisions ít nhất 1 đêm sau khi "đã biết"</div>
+      <div class="rule-detail">Sun trine Moon: mày consistently get additional clarity sau sleeping. "Đã biết" feeling thường là 80% signal + 20% noise from current state. After sleep: nếu answer is same — high confidence. If different — cần more investigation. Với Type 1 decisions: sleep 3 đêm, not 1. Pattern mày observe across 3 nights is much more reliable signal.</div>
+    </div>
+
+    <div class="rule" data-n="06">
+      <div class="rule-title">Decisions quan trọng phải có written pros/cons — không acceptable to decide purely in head</div>
+      <div class="rule-detail">Saturn H3: externalize thinking để see it clearly. Writing forces precision — "cảm giác tốt" không phải pro, phải articulate tại sao it's good. Neptune-Venus: writing helps distinguish real pros from idealized projections. Not about which list is longer — mà là about forcing clarity of thinking. Review written pros/cons after 24 hours với fresh eyes.</div>
+    </div>
+
+    <div class="limits-grid">
+      <div class="limits-box red">
+        <div class="limits-label">Không Được Phép</div>
+        <div class="limit-item">Không decide under manufactured urgency — nếu "phải decide ngay bây giờ" không có real consequence, đó thường là pressure tactic hoặc anxiety, không phải genuine urgency</div>
+        <div class="limit-item">Không commit vào người/opportunity chủ yếu vì they're "exciting right now" — Neptune-Venus là active risk đây</div>
+      </div>
+      <div class="limits-box green">
+        <div class="limits-label">Đang Đi Đúng Hướng Khi</div>
+        <div class="limit-item">Decisions made 6+ tháng trước consistently feel right in retrospect — alignment signal đang hoạt động</div>
+        <div class="limit-item">Mày có thể clearly articulate tại sao mày made a decision khi nhìn lại, không phải "cảm giác đúng lúc đó"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 12: GIAO TIẾP -->
+  <div class="section" id="s12">
+    <div class="section-header">
+      <div class="section-number">Khía Cạnh 12</div>
+      <div class="section-title">Giao Tiếp & Ảnh Hưởng</div>
+      <div class="section-basis">Thổ Tinh Dương Cưu H3 · Thủy Tinh Nhân Mã H11 · Hỏa Tinh ASC · Mộc H1</div>
+    </div>
+    <div class="section-insight">Saturn Aries H3: communication là khu vực cần discipline nhất với lá số này — Saturn ở H3 demands structured, deliberate expression. Mercury Sagittarius: natural strength là vision và big-picture thinking, risk là over-promising và under-specifying. Mars ASC: communication style intense và direct với nhiều người — cần learn to calibrate without losing power. Jupiter H1: khi authentic, communication naturally magnetic — khi performed, the opposite.</div>
+
+    <div class="rules-label">Quy Tắc Vận Hành</div>
+
+    <div class="rule" data-n="01">
+      <div class="rule-title">Mọi important communication phải được drafted trước khi sent hoặc said</div>
+      <div class="rule-detail">Saturn H3: externalize thinking để control output. "Important" bao gồm: email về significant topic, difficult conversation, pitch, feedback để người khác act on, và bất kỳ communication nào mà first impression matters. Draft không có nghĩa là script word-for-word — mà là clarify: (1) main point là gì, (2) mình muốn gì từ this communication, (3) potential misunderstandings. Takes 5 phút nhưng saves hours của follow-up.</div>
+    </div>
+
+    <div class="rule" data-n="02">
+      <div class="rule-title">Under-promise publicly, over-deliver privately — không ngược lại</div>
+      <div class="rule-detail">Mercury Sagittarius: natural tendency là speak in grand visions và ambitious commitments. Đây là strength trong vision-setting nhưng risk trong execution commitments. Rule: tất cả public commitments phải be achievable at 70% capacity, not 110%. Reserve 30% for genuine over-delivery hay handling unexpected. Pattern of consistent over-delivery > occasional impressive delivery followed by misses.</div>
+    </div>
+
+    <div class="rule" data-n="03">
+      <div class="rule-title">24-hour rule cho important responses khi emotionally triggered</div>
+      <div class="rule-detail">Moon vuông Mars: khi emotionally activated, communication response có thể be disproportionately intense. Rule không phải để suppress — mà để ensure response is serving your actual goals. Draft the response immediately (để release the pressure), save as draft, không send. Review sau 24 giờ với question: "Cái này serves mục tiêu lâu dài của mình không?" Thường mày sẽ revise significantly.</div>
+      <div class="rule-metric"><strong>Exception:</strong> Emergencies và time-sensitive operational items. Không về content of those — chỉ về tone và framing.</div>
+    </div>
+
+    <div class="rule" data-n="04">
+      <div class="rule-title">Written communication là lever lớn nhất — invest vào nó như core skill</div>
+      <div class="rule-detail">Saturn H3: writing là highest-leverage communication với lá số này. Clear, precise, powerful writing creates asymmetric influence. Investment: study nonfiction writing craft, không phải chỉ produce content. Đọc writers mày admire và reverse-engineer cấu trúc của họ. Mỗi năm: có ít nhất 1 piece of writing mày genuinely proud of — essay, research, framework, book. Not for audience necessarily — for craft development.</div>
+    </div>
+
+    <div class="rule" data-n="05">
+      <div class="rule-title">Không over-explain hay justify — calibrate intensity to context</div>
+      <div class="rule-detail">Aquarius H1 energy bị diluted bởi over-explanation. Mars ASC communication đã có high intensity — thêm over-justification creates noise, không signal. Rule: một position cần tối đa 3 reasons khi presenting. Nếu mày đang viết/nói reason thứ 4, 5, 6 — mày đang trying to convince yourself as much as the other person. Pruning to strongest 2-3 reasons actually increases persuasiveness.</div>
+    </div>
+
+    <div class="rule" data-n="06">
+      <div class="rule-title">Khi present hoặc pitch: lead with vision và implication, not với details và methodology</div>
+      <div class="rule-detail">Jupiter H1 + Mercury Sagittarius: natural strength là seeing and communicating big picture. When mày lead with details và methodology — mày're competing on ground where specialists will always win. Lead with: "What changes if this works?" và "Why does this matter at scale?" Then back with sufficient (not exhaustive) evidence. Most audiences decide in first 3 minutes — make those minutes count vision-wise.</div>
+    </div>
+
+    <div class="limits-grid">
+      <div class="limits-box red">
+        <div class="limits-label">Không Được Phép</div>
+        <div class="limit-item">Không send important emails khi emotionally activated — có thể write draft ngay nhưng không send trong < 2 giờ từ trigger event</div>
+        <div class="limit-item">Không make public commitments in the moment under social pressure — "let me confirm và come back to you" là always acceptable response</div>
+      </div>
+      <div class="limits-box green">
+        <div class="limits-label">Đang Đi Đúng Hướng Khi</div>
+        <div class="limit-item">People describe mày as "clear" và "direct" — hai từ đó together = Saturn H3 working well</div>
+        <div class="limit-item">Commitments mày make consistently happen — under-promise/over-deliver pattern is established</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 13: PHỤC HỒI & TƯ DUY -->
+  <div class="section" id="s13">
+    <div class="section-header">
+      <div class="section-number">Khía Cạnh 13</div>
+      <div class="section-title">Phục Hồi & Tiêu Chuẩn Tư Duy</div>
+      <div class="section-basis">Moon Taurus H4 · Chiron H10 · Mặt Trời H12 · Aquarius H1 Stellium · Jupiter H1</div>
+    </div>
+    <div class="section-insight">Chiron H10: professional wounds và public failures là built into the trajectory — không phải exceptions mà là initiation points. Moon Taurus H4: recovery cần physical grounding, không phải purely mental processing. Jupiter H1 tạo ra risk của cao-thấp oscillation — euphoric when winning, harsh when losing. Aquarius H1: self-standards phải come from internal compass, không external comparison. Tất cả những cái này cần deliberate system để navigate.</div>
+
+    <div class="rules-label">Quy Tắc Vận Hành</div>
+
+    <div class="rule" data-n="01">
+      <div class="rule-title">Định nghĩa rõ recovery protocol cho 3 levels của setback trước khi cần đến</div>
+      <div class="rule-detail">Level 1 (minor setback — missed deadline, small failure, bad day): 24-48 giờ. Physical outlet, acknowledge what happened, extract 1 lesson, move. Level 2 (major failure — project fail, significant financial loss, important relationship rupture): 1-2 tuần. Full physical reset, journaling intensive, 1 trusted conversation, formal lesson-extraction document. Level 3 (identity-level crisis — public failure, fundamental belief shattered, major life disruption): 1-3 tháng deliberate recovery, possible professional help, complete retreat from non-essential before re-engagement. Knowing the protocol in advance prevents paralysis.</div>
+    </div>
+
+    <div class="rule" data-n="02">
+      <div class="rule-title">Maximum "down period" cho Level 1 setbacks: 48 giờ. Sau đó phải initiate forward action</div>
+      <div class="rule-detail">Mars ASC: inertia is a threat. Prolonged dwelling on Level 1 setbacks crosses from healthy processing vào unproductive rumination — và the line is clearer than mày think. Không phải về suppressing the feeling — mày có 48 giờ full permission to feel everything. After 48 giờ: phải có ít nhất 1 action, any action, that is forward-directed. The action breaks the loop.</div>
+    </div>
+
+    <div class="rule" data-n="03">
+      <div class="rule-title">Sau professional failure: extract lesson trong vòng 2 tuần, viết ra, sau đó release</div>
+      <div class="rule-detail">Chiron H10: professional wound must be consciously transmuted, không được chôn hoặc linger in indefinitely. Process: (1) Viết ra exactly what happened, without defense. (2) Identify root causes, not surface causes. (3) Extract 2-3 specific lessons that change future behavior. (4) Identify 1 capability mày now have that mày didn't have before this failure. (5) File document, close it. Không được revisit except as reference, không as rumination.</div>
+    </div>
+
+    <div class="rule" data-n="04">
+      <div class="rule-title">Không so sánh progress với người khác — chỉ với version của mình tháng trước</div>
+      <div class="rule-detail">Aquarius H1: operates from internal compass. External comparison là fundamentally incompatible với lá số này vì mày đang chạy một trajectory không ai khác đang chạy. Comparing với others là measuring against wrong metric — it creates anxiety mà không generates useful signal. The only valid comparison: "Am I more capable, more clear, và more aligned than 30 days ago?" Nếu yes — đúng hướng.</div>
+    </div>
+
+    <div class="rule" data-n="05">
+      <div class="rule-title">Không downplay achievements khi được compliment — "thank you" là đủ và appropriate</div>
+      <div class="rule-detail">Jupiter H1 + Aquarius: self-deprecation as social strategy is incompatible với building genuine authority. Khi mày minimize real achievement bởi vì mày think it's humble hay relatable — mày đang both being dishonest và training others to undervalue contributions. "Thank you" acknowledges without boasting. Practicing this: khi nhận được genuine compliment, pause, make eye contact, say "thank you" và stop. Don't add qualifiers.</div>
+    </div>
+
+    <div class="rule" data-n="06">
+      <div class="rule-title">Distinguish giữa useful inner critic và self-undermining noise — và respond differently</div>
+      <div class="rule-detail">Sun H12: inner critic rất active với lá số này. Useful critic: specific, behavioral, actionable. "Presentation lacked concrete examples" → can fix. Self-undermining noise: global, identity-level, unactionable. "Mày không đủ giỏi để làm cái này" → not useful, not true. Rule: when inner critic activates, ask "Is this specific và actionable?" If yes — take note và fix. If no — acknowledge "I hear you" và return to work. Do not engage, do not fight, do not collapse.</div>
+    </div>
+
+    <div class="rule" data-n="07">
+      <div class="rule-title">Annual resilience review: gì đã xảy ra, gì đã học, tại sao mày mạnh hơn</div>
+      <div class="rule-detail">Mỗi năm (ngày sinh nhật hoặc ngày tự chọn): viết full-year review với focus vào: (1) Challenges đã đối mặt. (2) Capabilities được build từ những challenges đó. (3) Beliefs về bản thân đã thay đổi như thế nào. (4) "Nếu năm sau có challenge tương tự, tại sao mình sẽ handle nó tốt hơn?" Đây là hệ thống chuyển hóa setbacks thành foundation — Chiron H10 mechanism ở work.</div>
+    </div>
+
+    <div class="limits-grid">
+      <div class="limits-box red">
+        <div class="limits-label">Không Được Phép</div>
+        <div class="limit-item">Không romanticize struggle hoặc suffering — Bọ Cạp energy có thể trap mày trong wound story. Point là transform và emerge stronger, không là stay trong wound</div>
+        <div class="limit-item">Không entertain "mày không đủ [X]" narratives > 30 phút mà không counter với specific evidence to the contrary</div>
+        <div class="limit-item">Không judge recovery speed của mình — different people, different events, different recovery times. Nhưng có protocol và phải initiate it</div>
+      </div>
+      <div class="limits-box green">
+        <div class="limits-label">Đang Đi Đúng Hướng Khi</div>
+        <div class="limit-item">Failures từ 2+ năm trước được refer to as sources of capability, không sources of shame</div>
+        <div class="limit-item">Mày có thể articulate cụ thể "mình mạnh hơn ở [X] vì [Y] đã xảy ra" cho ít nhất 3 past challenges</div>
+        <div class="limit-item">Inner critic giảm global statements và tăng specific feedback — sign of matured self-knowledge</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEKLY CHECKLIST -->
+  <div class="section" id="weekly">
+    <div class="section-header">
+      <div class="section-number">Review Hàng Tuần</div>
+      <div class="section-title">Checklist Tuần — Cuối Tuần, 30 Phút</div>
+    </div>
+    <div class="protocol-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="protocol-card">
+        <div class="protocol-card-title">Thể Chất & Nền Tảng</div>
+        <div class="protocol-item">Đã tập đủ 3x strength training chưa?</div>
+        <div class="protocol-item">Sleep average tuần này: bao nhiêu tiếng?</div>
+        <div class="protocol-item">Energy level trung bình tuần: /10</div>
+        <div class="protocol-item">Đã có 30 phút solitude mỗi ngày chưa?</div>
+        <div class="protocol-item">Deep work blocks bị interrupt bao nhiêu lần?</div>
+      </div>
+      <div class="protocol-card">
+        <div class="protocol-card-title">Công Việc & Tiến Độ</div>
+        <div class="protocol-item">Priority #1 tuần này đã complete chưa?</div>
+        <div class="protocol-item">Có thứ gì mình làm khác/better tuần này không?</div>
+        <div class="protocol-item">Có commitment nào bị miss không? Rút ra gì?</div>
+        <div class="protocol-item">Đã journal ít nhất 3 lần chưa?</div>
+        <div class="protocol-item">Đã có output sáng tạo nào không (dù nhỏ)?</div>
+      </div>
+      <div class="protocol-card">
+        <div class="protocol-card-title">Tinh Thần & Tư Duy</div>
+        <div class="protocol-item">Tuần này mình học được gì mới không?</div>
+        <div class="protocol-item">Có quyết định nào được đưa ra đúng process không?</div>
+        <div class="protocol-item">Energy audit: activities nạp vs drain tỷ lệ?</div>
+        <div class="protocol-item">Có interaction nào cần follow up không?</div>
+        <div class="protocol-item">Điều chỉnh gì cho tuần tới?</div>
+      </div>
+      <div class="protocol-card">
+        <div class="protocol-card-title">Câu Hỏi Quy Luật</div>
+        <div class="protocol-item">Tuần này mình có làm gì ngược chiều Quy Luật I-IX không?</div>
+        <div class="protocol-item">Momentum có đang được maintain không?</div>
+        <div class="protocol-item">Có red line nào bị crossed không?</div>
+        <div class="protocol-item">Mình đang tiến hay lùi so với 7 ngày trước?</div>
+        <div class="protocol-item">1 thứ phải làm khác nhau tuần tới là gì?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MONTHLY CHECKLIST -->
+  <div class="section" id="monthly">
+    <div class="section-header">
+      <div class="section-number">Review Hàng Tháng</div>
+      <div class="section-title">Checklist Tháng — Ngày Cố Định, 2 Giờ</div>
+    </div>
+    <div class="protocol-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+      <div class="protocol-card">
+        <div class="protocol-card-title">Tài Chính</div>
+        <div class="protocol-item">P&L tháng — income vs expenses</div>
+        <div class="protocol-item">Net worth update</div>
+        <div class="protocol-item">Investment portfolio review</div>
+        <div class="protocol-item">1 quyết định tài chính cụ thể</div>
+        <div class="protocol-item">Savings rate % tháng này</div>
+      </div>
+      <div class="protocol-card">
+        <div class="protocol-card-title">Sự Nghiệp</div>
+        <div class="protocol-item">Đang tiến đến annual goal không?</div>
+        <div class="protocol-item">Có phase change nào được tạo ra không?</div>
+        <div class="protocol-item">Network: ai mới được added vào inner circle?</div>
+        <div class="protocol-item">Chiron H10: có wound được addressed không?</div>
+        <div class="protocol-item">Transformation goal: progress %</div>
+      </div>
+      <div class="protocol-card">
+        <div class="protocol-card-title">Thể Chất & Nền Tảng</div>
+        <div class="protocol-item">Average sleep tháng này</div>
+        <div class="protocol-item">Workout consistency %</div>
+        <div class="protocol-item">Physical symptoms gì xuất hiện?</div>
+        <div class="protocol-item">Energy trend: improving hay degrading?</div>
+        <div class="protocol-item">Environment audit done?</div>
+      </div>
+      <div class="protocol-card">
+        <div class="protocol-card-title">Học Hỏi & Sáng Tạo</div>
+        <div class="protocol-item">Learning plan tháng này theo đúng không?</div>
+        <div class="protocol-item">Synthesis document cho content đã học?</div>
+        <div class="protocol-item">Creative output tháng này là gì?</div>
+        <div class="protocol-item">Có thứ gì được deployed từ learning không?</div>
+        <div class="protocol-item">Cần thay đổi learning focus không?</div>
+      </div>
+      <div class="protocol-card">
+        <div class="protocol-card-title">Nội Tâm</div>
+        <div class="protocol-item">Journal entries: consistent không?</div>
+        <div class="protocol-item">Solitude quality tháng này</div>
+        <div class="protocol-item">Inner critic pattern nào đã xuất hiện?</div>
+        <div class="protocol-item">Neptune check trên relationships</div>
+        <div class="protocol-item">Gì đang pull attention không necessary?</div>
+      </div>
+      <div class="protocol-card">
+        <div class="protocol-card-title">Câu Hỏi Synthesis</div>
+        <div class="protocol-item">Tháng này mày là phiên bản tốt hơn hay xấu hơn tháng trước?</div>
+        <div class="protocol-item">Red line nào bị crossed? Tại sao?</div>
+        <div class="protocol-item">Quy luật nào đang bị ignore nhất?</div>
+        <div class="protocol-item">1 thứ phải thay đổi tháng tới</div>
+        <div class="protocol-item">1 thứ đang work tốt cần protect</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUARTERLY CHECKLIST -->
+  <div class="section" id="quarterly">
+    <div class="section-header">
+      <div class="section-number">Review Hàng Quý</div>
+      <div class="section-title">Checklist Quý — Nửa Ngày, Mỗi 3 Tháng</div>
+    </div>
+    <div class="section-insight" style="margin-bottom: 1.5rem;">Đây là review quan trọng nhất. Tuần và tháng nhìn tactics. Quý nhìn trajectory. Nếu chỉ làm được 1 review định kỳ — đây là cái cần làm. Block nửa ngày, ra ngoài khỏi workspace thường ngày, không laptop — chỉ notebook.</div>
+    <div class="protocol-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="protocol-card">
+        <div class="protocol-card-title">Identity Audit (Bọ Cạp MC)</div>
+        <div class="protocol-item">Belief nào đã thay đổi trong quý này?</div>
+        <div class="protocol-item">Identity/role nào cần die để move forward?</div>
+        <div class="protocol-item">Gì mày đang hold onto vì fear, không vì value?</div>
+        <div class="protocol-item">Version tốt hơn của mày 90 ngày tới trông như thế nào cụ thể?</div>
+      </div>
+      <div class="protocol-card">
+        <div class="protocol-card-title">Trajectory Check (La Hầu H8)</div>
+        <div class="protocol-item">Annual transformation goal: đang on track không?</div>
+        <div class="protocol-item">Mastery trong main domain: deeper so với 3 tháng trước?</div>
+        <div class="protocol-item">Đâu là knowledge gap lớn nhất cần address quý tới?</div>
+        <div class="protocol-item">Financial trajectory: net worth trend đúng hướng không?</div>
+      </div>
+      <div class="protocol-card">
+        <div class="protocol-card-title">Relationship Audit (Kim Tinh + Neptune)</div>
+        <div class="protocol-item">Inner circle relationships: vẫn mutual value không?</div>
+        <div class="protocol-item">Neptune check: có ai mày đang idealize không?</div>
+        <div class="protocol-item">Relationship nào cần boundary clearer?</div>
+        <div class="protocol-item">Relationship nào cần more investment?</div>
+      </div>
+      <div class="protocol-card">
+        <div class="protocol-card-title">Câu Hỏi Top 1% (Stellium H1)</div>
+        <div class="protocol-item">Đâu là thứ mày làm được mà không ai trong network làm được?</div>
+        <div class="protocol-item">Có đang compete hay đang create? (Aquarius đòi hỏi create)</div>
+        <div class="protocol-item">Scale của thinking có đang expanding không?</div>
+        <div class="protocol-item">Quý tới, mày sẽ different theo cách gì cụ thể?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <hr class="divider">
+  <div style="text-align: center; padding: 2rem 0; color: var(--text3); font-size: 12px; font-family: sans-serif; line-height: 2;">
+    <div style="color: var(--gold-dim); font-style: italic; font-size: 14px; margin-bottom: 8px;">"Tiến mới là thuận chiều. Lùi mới là đi ngược dòng."</div>
+    Codex Vận Hành Cá Nhân · Trần Phát Hưng<br>
+    Lá Số Bẩm Sinh · Whole Signs · Mean Node<br>
+    Ascendant Bảo Bình 16°43' · MC Bọ Cạp 24°28' · La Hầu Xử Nữ H8
+  </div>
+
+</main>
+</div>
+
+<script>
+document.querySelectorAll('.nav-item').forEach(a => {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+const sections = document.querySelectorAll('.section');
+const navItems = document.querySelectorAll('.nav-item');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navItems.forEach(n => {
+        n.classList.toggle('active', n.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
